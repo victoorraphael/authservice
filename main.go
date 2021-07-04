@@ -4,9 +4,13 @@ import (
 	"github.com/golangsugar/env"
 	"github.com/miguelpragier/pgkebab"
 	"log"
+	"os"
 )
 
-var db *pgkebab.DBLink
+var (
+	db        *pgkebab.DBLink
+	secretKey []byte
+)
 
 func dbConnection() error {
 	log.Println("connecting database ...")
@@ -37,7 +41,7 @@ func dbConnection() error {
 }
 
 func loadSettings() error {
-	return env.Check(`SECRET_KEY`, ``, true, true)
+	return env.Check(`SECRET_KEY`, `@xente#nutri`, true, true)
 }
 
 func main() {
@@ -48,6 +52,8 @@ func main() {
 	if err := loadSettings(); err != nil {
 		log.Fatal(err)
 	}
+
+	secretKey = []byte(os.Getenv("SECRET_KEY"))
 
 	webserviceStart()
 }
