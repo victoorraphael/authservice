@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/golangsugar/env"
 	"github.com/miguelpragier/pgkebab"
 	"log"
 )
@@ -35,8 +36,16 @@ func dbConnection() error {
 	return nil
 }
 
+func loadSettings() error {
+	return env.Check(`SECRET_KEY`, ``, true, true)
+}
+
 func main() {
 	if err := dbConnection(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := loadSettings(); err != nil {
 		log.Fatal(err)
 	}
 
