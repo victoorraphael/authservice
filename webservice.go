@@ -4,7 +4,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"log"
-	"net/http"
 )
 
 func corsConfig() middleware.CORSConfig {
@@ -27,9 +26,13 @@ func webserviceStart() {
 
 	r := e.Group("/auth")
 
-	r.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "tudo OK")
-	})
+	r.POST("/create/", createToken)
+
+	//r.POST("/check/", isValid)
+	//
+	//r.POST("/revoke/", revokeToken)
+	//
+	//r.POST("/refresh/", refreshToken)
 
 	e.Logger.Fatal(e.Start(":4000"))
 }
