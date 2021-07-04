@@ -35,8 +35,10 @@ func dbConnection() error {
 	return nil
 }
 
-func main()  {
+func main() {
 	if err := dbConnection(); err != nil {
 		log.Fatal(err)
 	}
+
+	webserviceStart()
 }
