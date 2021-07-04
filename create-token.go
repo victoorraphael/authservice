@@ -16,6 +16,13 @@ func createToken(c echo.Context) error {
 		return c.JSON(http.StatusUnprocessableEntity, map[string]string{"message": "invalid JSON"})
 	}
 
+	exp := time.Now().Add(time.Minute * 2)
+
+	if err := u.save(exp); err != nil {
+		log.Println("ERROR: cannot save user => ", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "erro interno, tente novamente mais tarde"})
+	}
+
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
@@ -23,7 +30,7 @@ func createToken(c echo.Context) error {
 	claims["authorized"] = true
 	claims["user"] = u.Id
 	claims["pass"] = u.Pass
-	claims["exp"] = time.Now().Add(time.Minute * 2).Unix()
+	claims["exp"] = exp.Unix()
 
 	tokenString, err := token.SignedString(secretKey)
 
