@@ -1,0 +1,4 @@
+github.com/lib/pq v1.7.0 h1:h93mCPfUSkaul3Ka/VG8uZdmW1uMHDGxzu0NWHuJmHY=
+github.com/lib/pq v1.7.0/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
+github.com/miguelpragier/pgkebab v0.0.0-20201110172727-063ebddb40c4 h1:blal/iwNV0BLHzwBeAdkTW/yCgiiBozpNMHVZ484lEY=
+github.com/miguelpragier/pgkebab v0.0.0-20201110172727-063ebddb40c4/go.mod h1:FnQRlObQZZ+73Bixs5IFuBoeUqWS1ut0nvZ8XcYi3Zc=
