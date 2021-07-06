@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 )
@@ -31,6 +32,33 @@ func (j *jwtWrapper) generateToken(name, email string) (signedToken string, err 
 
 	signedToken, err = token.SignedString([]byte(j.SecretKey))
 	if err != nil {
+		return
+	}
+
+	return
+}
+
+func (j *jwtWrapper) validateToken(signedToken string) (claims *jwtClaims, err error) {
+	token, err := jwt.ParseWithClaims(
+		signedToken,
+		&jwtClaims{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(j.SecretKey), nil
+		},
+	)
+
+	if err != nil {
+		return
+	}
+
+	claims, ok := token.Claims.(*jwtClaims)
+	if !ok {
+		err = errors.New("Não foi possível realizar o parse dos claims")
+		return
+	}
+
+	if claims.ExpiresAt < time.Now().Local().Unix() {
+		err = errors.New("Token expirado")
 		return
 	}
 
