@@ -28,8 +28,7 @@ func webserviceStart() {
 
 	r.POST("/create/", createToken)
 
-	//r.POST("/check/", isValid)
-	//
+	r.GET("/check/", isValid)
 	//r.POST("/revoke/", revokeToken)
 	//
 	//r.POST("/refresh/", refreshToken)
