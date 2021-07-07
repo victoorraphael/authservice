@@ -23,7 +23,7 @@ func isValid(c echo.Context) error {
 	claims, err := jw.validateToken(token)
 	if err != nil {
 		log.Println(time.Now().Local(), " token expirado ou inválido")
-		return c.JSON(http.StatusUnauthorized, map[string]string{"msg": err.Error()})
+		return c.JSON(http.StatusUnauthorized, map[string]string{"msg": "token inválido"})
 	}
 
 	log.Println(time.Now().Local(), " usuário autorizado")
