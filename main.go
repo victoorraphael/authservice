@@ -15,7 +15,7 @@ var (
 func dbConnection() error {
 	log.Println("connecting database ...")
 
-	cn := pgkebab.ConnStringDirect("postgres://postgres:postgres123@localhost:5432/authservice?sslmode=disable")
+	cn := pgkebab.ConnStringDirect(os.Getenv("DBCN"))
 
 	const (
 		connTimeout                        = 10
@@ -44,6 +44,10 @@ func loadSettings() error {
 	return env.CheckMany(
 		env.Directives{
 			VarName:    "SECRET_KEY",
+			Mandatory:  true,
+			DebugPrint: true,
+		}, env.Directives{
+			VarName:    "DBCN",
 			Mandatory:  true,
 			DebugPrint: true,
 		},
