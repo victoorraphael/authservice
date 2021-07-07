@@ -15,9 +15,9 @@ type user struct {
 
 func (u *user) save(exp time.Time) error {
 	userPairs := pgkebab.Pairs(
-		`user_name`, u.Name,
-		`user_email`, u.Email,
-		`user_pass`, u.Pass,
+		`name`, u.Name,
+		`email`, u.Email,
+		`password`, u.Pass,
 		`crn`, u.Crn,
 		`expiration`, exp)
 	if err := db.Insert(`credentials`, userPairs); err != nil {
