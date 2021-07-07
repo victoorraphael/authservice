@@ -18,7 +18,7 @@ func (u *user) save() error {
 		`email`, u.Email,
 		`password`, u.Pass,
 		`crn`, u.Crn)
-	if err := db.Insert(`credentials`, userPairs); err != nil {
+	if err := db.Insert(`users`, userPairs); err != nil {
 		return err
 	}
 
