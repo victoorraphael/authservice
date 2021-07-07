@@ -41,7 +41,13 @@ func dbConnection() error {
 }
 
 func loadSettings() error {
-	return env.Check(`SECRET_KEY`, `@xente#nutri`, true, true)
+	return env.CheckMany(
+		env.Directives{
+			VarName:    "SECRET_KEY",
+			Mandatory:  true,
+			DebugPrint: true,
+		},
+	)
 }
 
 func main() {
