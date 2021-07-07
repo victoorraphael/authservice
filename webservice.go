@@ -26,13 +26,11 @@ func webserviceStart() {
 
 	r := e.Group("/auth")
 
-	r.POST("/create/", createToken)
+	r.POST("/create/user/", createUser)
 
-	//r.POST("/check/", isValid)
-	//
-	//r.POST("/revoke/", revokeToken)
-	//
-	//r.POST("/refresh/", refreshToken)
+	r.POST("/login/", loginUser)
+
+	r.GET("/check/", isValid)
 
 	e.Logger.Fatal(e.Start(":4000"))
 }
