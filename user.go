@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/miguelpragier/pgkebab"
 	"golang.org/x/crypto/bcrypt"
-	"time"
 )
 
 type user struct {
@@ -13,13 +12,12 @@ type user struct {
 	Crn   string `json:"crn"`
 }
 
-func (u *user) save(exp time.Time) error {
+func (u *user) save() error {
 	userPairs := pgkebab.Pairs(
 		`name`, u.Name,
 		`email`, u.Email,
 		`password`, u.Pass,
-		`crn`, u.Crn,
-		`expiration`, exp)
+		`crn`, u.Crn)
 	if err := db.Insert(`credentials`, userPairs); err != nil {
 		return err
 	}
