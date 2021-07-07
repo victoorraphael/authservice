@@ -31,9 +31,6 @@ func webserviceStart() {
 	r.POST("/login/", loginUser)
 
 	r.GET("/check/", isValid)
-	//r.POST("/revoke/", revokeToken)
-	//
-	//r.POST("/refresh/", refreshToken)
 
 	e.Logger.Fatal(e.Start(":4000"))
 }
