@@ -1,7 +1,6 @@
 package main
 
 import (
-	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
@@ -12,32 +11,19 @@ func createToken(c echo.Context) error {
 	var u user
 
 	if err := c.Bind(&u); err != nil {
-		log.Println("ERROR: invalid JSON")
-		return c.JSON(http.StatusUnprocessableEntity, map[string]string{"message": "invalid JSON"})
+		log.Println(time.Now(), " erro no JSON fornecido => ", err.Error())
+		return c.JSON(http.StatusUnprocessableEntity, map[string]string{"msg": "invalid JSON"})
 	}
 
-	exp := time.Now().Add(time.Minute * 2)
-
-	if err := u.save(exp); err != nil {
-		log.Println("ERROR: cannot save user => ", err)
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "erro interno, tente novamente mais tarde"})
+	if err := u.hashPassword(u.Pass); err != nil {
+		log.Println(time.Now(), " erro ao tentar realizar o hash da senha")
+		return c.JSON(http.StatusInternalServerError, map[string]string{"msg": "erro ao tentar salvar a senha"})
 	}
 
-	token := jwt.New(jwt.SigningMethodHS256)
-
-	claims := token.Claims.(jwt.MapClaims)
-
-	claims["authorized"] = true
-	claims["user"] = u.Id
-	claims["pass"] = u.Pass
-	claims["exp"] = exp.Unix()
-
-	tokenString, err := token.SignedString(secretKey)
-
-	if err != nil {
-		log.Println("Somenthing wrong while generating token", err.Error())
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "erro ao tentar gerar token"})
+	if err := u.save(); err != nil {
+		log.Println(time.Now(), " erro ao tentar gravar usuário no banco")
+		c.JSON(http.StatusInternalServerError, map[string]string{"msg": "erro ao tentar criar usuário"})
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"token": tokenString})
+	return c.JSON(http.StatusOK, &u)
 }
