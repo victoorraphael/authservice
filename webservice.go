@@ -28,6 +28,8 @@ func webserviceStart() {
 
 	r.POST("/create/user/", createUser)
 
+	r.POST("/login/", loginUser)
+
 	r.GET("/check/", isValid)
 	//r.POST("/revoke/", revokeToken)
 	//
