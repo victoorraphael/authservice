@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-func createToken(c echo.Context) error {
+func createUser(c echo.Context) error {
 	var u user
 
 	if err := c.Bind(&u); err != nil {

@@ -26,7 +26,7 @@ func webserviceStart() {
 
 	r := e.Group("/auth")
 
-	r.POST("/create/", createToken)
+	r.POST("/create/user/", createUser)
 
 	r.GET("/check/", isValid)
 	//r.POST("/revoke/", revokeToken)
