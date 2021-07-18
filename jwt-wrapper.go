@@ -13,8 +13,8 @@ type jwtWrapper struct {
 }
 
 type jwtClaims struct {
-	Name  string
-	Email string
+	Name  string `json:"name"`
+	Email string `json:"email"`
 	jwt.StandardClaims
 }
 
