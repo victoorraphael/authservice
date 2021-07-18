@@ -5,13 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 func isValid(c echo.Context) error {
 	token := c.Request().Header.Get("Authorization")
 	if token == "" {
-		log.Println(time.Now().Local(), " token ausente")
+		log.Println(" token ausente")
 		return c.JSON(http.StatusForbidden, map[string]string{"msg": "formato incorreto de authorization header"})
 	}
 
@@ -22,10 +21,10 @@ func isValid(c echo.Context) error {
 
 	claims, err := jw.validateToken(token)
 	if err != nil {
-		log.Println(time.Now().Local(), " token expirado ou inválido")
+		log.Println(" token expirado ou inválido")
 		return c.JSON(http.StatusUnauthorized, map[string]string{"msg": "token inválido"})
 	}
 
-	log.Println(time.Now().Local(), " usuário autorizado")
+	log.Println(" usuário autorizado")
 	return c.JSON(http.StatusOK, claims)
 }
